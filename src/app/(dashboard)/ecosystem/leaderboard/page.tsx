@@ -17,11 +17,21 @@ import {
 } from '@tanstack/react-table';
 
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+
+import { 
+  BarChart, 
+  Bar, 
+  XAxis, 
+  CartesianGrid, 
+  Tooltip, 
+  Legend 
+} from 'recharts';
+import { TrendingUp } from 'lucide-react';
 
 // GOAT Club data
 const GOATClubData = [
@@ -335,6 +345,56 @@ function DataTable<TData, TValue>({ columns, data }: { columns: ColumnDef<TData,
     );
 }
 
+const leaderboardChartData = [
+  { month: "Jan", projects: projectData[0].tvl / 1e9, quests: questLeaderboardData[0].questPoints / 1000 },
+  { month: "Feb", projects: projectData[1].tvl / 1e9, quests: questLeaderboardData[1].questPoints / 1000 },
+  { month: "Mar", projects: projectData[2].tvl / 1e9, quests: questLeaderboardData[2].questPoints / 1000 },
+];
+
+function LeaderboardChart() {
+  return (
+    <Card className="mb-6">
+      <CardHeader>
+        <CardTitle>Platform Growth</CardTitle>
+        <CardDescription>Project TVL vs Quest Points</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div className="h-[300px] w-full">
+          <BarChart data={leaderboardChartData} width={800} height={300}>
+            <CartesianGrid vertical={false} />
+            <XAxis
+              dataKey="month"
+              tickLine={false}
+              tickMargin={10}
+              axisLine={false}
+            />
+            <Tooltip />
+            <Legend />
+            <Bar
+              dataKey="projects"
+              fill="hsl(var(--chart-1))"
+              radius={[4, 4, 0, 0]}
+            />
+            <Bar
+              dataKey="quests"
+              fill="hsl(var(--chart-2))"
+              radius={[0, 0, 4, 4]}
+            />
+          </BarChart>
+        </div>
+      </CardContent>
+      <CardFooter className="flex-col items-start gap-2 text-sm">
+        <div className="flex gap-2 font-medium leading-none">
+          Platform growth trending up <TrendingUp className="h-4 w-4" />
+        </div>
+        <div className="leading-none text-muted-foreground">
+          Comparing Project TVL and Quest Points over time
+        </div>
+      </CardFooter>
+    </Card>
+  );
+}
+
 export default function LeaderboardPage() {
     return (
         <div className="container mx-auto py-10">
@@ -345,6 +405,7 @@ export default function LeaderboardPage() {
                     <TabsTrigger value="questleaderboard">Quest Leaderboard</TabsTrigger>
                 </TabsList>
                 <TabsContent value="GOATclub">
+                    <LeaderboardChart />
                     <h2 className="text-2xl font-bold mb-4">GOAT Leaders</h2>
                     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                         {GOATClubData.map((category, index) => (
