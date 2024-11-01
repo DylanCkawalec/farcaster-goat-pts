@@ -1,24 +1,10 @@
 "use client"
 
 import { TrendingUp } from "lucide-react"
-import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts"
-
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart"
-
-export const description = "Transaction Analytics"
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis, ResponsiveContainer } from "recharts"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
+import { TemplateProps } from "@/types/analytics"
 
 const chartConfig = {
   trx: {
@@ -28,74 +14,48 @@ const chartConfig = {
   volume: {
     label: "Volume",
     color: "hsl(var(--chart-2))",
-  },
-} satisfies ChartConfig
-
-interface TRXTemplateProps {
-  data: any[];
-  trend: string;
-  formatValue: (value: number) => string;
+  }
 }
 
-export function TRXTemplate({ data, trend, formatValue }: TRXTemplateProps) {
+export function TRXTemplate({ data, trend, formatValue }: TemplateProps) {
   return (
     <Card>
       <CardHeader>
         <CardTitle>Transaction Analytics</CardTitle>
-        <CardDescription>
-          Transaction volume and count trends
-        </CardDescription>
+        <CardDescription>Transaction volume and count trends</CardDescription>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig}>
-          <AreaChart
-            data={data}
-            margin={{
-              left: -20,
-              right: 12,
-            }}
-          >
-            <CartesianGrid vertical={false} />
+        <ResponsiveContainer width="100%" height={300}>
+          <AreaChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+            <CartesianGrid strokeDasharray="3 3" />
             <XAxis
-              dataKey="date"
+              dataKey="formattedDate"
               tickLine={false}
               axisLine={false}
-              tickMargin={8}
-              tickFormatter={(value) => new Date(value).toLocaleDateString()}
             />
             <YAxis
+              tickFormatter={formatValue}
               tickLine={false}
               axisLine={false}
-              tickMargin={8}
-              tickCount={5}
-              tickFormatter={formatValue}
             />
-            <ChartTooltip 
-              cursor={false} 
+            <ChartTooltip
               content={<ChartTooltipContent />}
               formatter={formatValue}
             />
             <Area
-              dataKey="trx"
               type="monotone"
-              fill="var(--color-trx)"
-              fillOpacity={0.4}
+              dataKey="value"
               stroke="var(--color-trx)"
-              stackId="a"
+              fill="var(--color-trx)"
+              fillOpacity={0.2}
             />
           </AreaChart>
-        </ChartContainer>
+        </ResponsiveContainer>
       </CardContent>
       <CardFooter>
-        <div className="flex w-full items-start gap-2 text-sm">
-          <div className="grid gap-2">
-            <div className="flex items-center gap-2 font-medium leading-none">
-              {trend} this month <TrendingUp className="h-4 w-4" />
-            </div>
-            <div className="flex items-center gap-2 leading-none text-muted-foreground">
-              Transaction volume analysis
-            </div>
-          </div>
+        <div className="flex items-center gap-2">
+          <TrendingUp className="h-4 w-4" />
+          <span>{trend} this month</span>
         </div>
       </CardFooter>
     </Card>

@@ -1,39 +1,21 @@
 "use client"
 
-import { TrendingUp } from "lucide-react"
-import { Bar, BarChart, CartesianGrid, LabelList, XAxis, YAxis } from "recharts"
-
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart"
+import { TemplateProps, ChartConfigItem } from '@/types/analytics';
+import { TrendingUp as TrendingUpIcon } from "lucide-react"
+import { Bar, BarChart, CartesianGrid, LabelList, XAxis, YAxis, ResponsiveContainer } from "recharts"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 
 export const description = "Daily Active Users Analytics"
 
-const chartConfig = {
+const chartConfig: Record<string, ChartConfigItem> = {
   dau: {
     label: "Daily Active Users",
     color: "hsl(var(--chart-2))",
-  },
-} satisfies ChartConfig
-
-interface DAUTemplateProps {
-  data: any[];
-  trend: string;
-  formatValue: (value: number) => string;
+  }
 }
 
-export function DAUTemplate({ data, trend, formatValue }: DAUTemplateProps) {
+export function DAUTemplate({ data, trend, formatValue }: TemplateProps) {
   return (
     <Card>
       <CardHeader>
@@ -41,57 +23,59 @@ export function DAUTemplate({ data, trend, formatValue }: DAUTemplateProps) {
         <CardDescription>Historical user activity trends</CardDescription>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig}>
+        <ResponsiveContainer width="100%" height={300}>
           <BarChart
             data={data}
-            layout="vertical"
             margin={{
               right: 16,
+              left: 16,
+              top: 16,
+              bottom: 16
             }}
           >
             <CartesianGrid horizontal={false} />
-            <YAxis
-              dataKey="date"
-              type="category"
+            <XAxis
+              dataKey="formattedDate"
               tickLine={false}
               axisLine={false}
-              tickFormatter={(value) => new Date(value).toLocaleDateString()}
-              hide
+              tickMargin={8}
             />
-            <XAxis dataKey="dau" type="number" hide />
+            <YAxis
+              tickLine={false}
+              axisLine={false}
+              tickMargin={8}
+              tickFormatter={formatValue}
+            />
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent indicator="line" />}
               formatter={formatValue}
             />
             <Bar
-              dataKey="dau"
+              dataKey="value"
               fill="var(--color-dau)"
               radius={4}
             >
               <LabelList
-                dataKey="date"
-                position="insideLeft"
-                offset={8}
-                formatter={(value: string) => new Date(value).toLocaleDateString()}
+                dataKey="formattedDate"
+                position="left"
                 className="fill-[--color-label]"
                 fontSize={12}
               />
               <LabelList
-                dataKey="dau"
+                dataKey="value"
                 position="right"
-                offset={8}
                 formatter={formatValue}
                 className="fill-foreground"
                 fontSize={12}
               />
             </Bar>
           </BarChart>
-        </ChartContainer>
+        </ResponsiveContainer>
       </CardContent>
       <CardFooter className="flex-col items-start gap-2 text-sm">
         <div className="flex gap-2 font-medium leading-none">
-          {trend} this month <TrendingUp className="h-4 w-4" />
+          {trend} this month <TrendingUpIcon className="h-4 w-4" />
         </div>
         <div className="leading-none text-muted-foreground">
           Showing daily active users over time

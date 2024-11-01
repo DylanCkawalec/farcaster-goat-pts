@@ -1,0 +1,49 @@
+{
+    "tvl": {
+      "data": [
+        {
+          "date": "2024-01-01",
+          "value": 15000000,
+          "btcLocked": 450,
+          "otherTokens": 8500000,
+          "formattedDate": "Jan 1, 2024"
+        }
+      ],
+      "trend": "+5.2%",
+      "config": {
+        "label": "Total Value Locked",
+        "color": "hsl(var(--chart-1))"
+      }
+    },
+    "dau": {
+      "data": [
+        {
+          "date": "2024-01-01",
+          "value": 5000,
+          "newUsers": 500,
+          "returningUsers": 4500,
+          "formattedDate": "Jan 1, 2024"
+        }
+      ],
+      "trend": "+3.1%",
+      "config": {
+        "label": "Daily Active Users",
+        "color": "hsl(var(--chart-2))"
+      }
+    },
+    "trx": {
+      "data": [
+        {
+          "date": "2024-01-01",
+          "value": 25000,
+          "volume": 1500000,
+          "formattedDate": "Jan 1, 2024"
+        }
+      ],
+      "trend": "+7.4%",
+      "config": {
+        "label": "Daily Transactions",
+        "color": "hsl(var(--chart-3))"
+      }
+    }
+  }

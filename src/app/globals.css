@@ -47,6 +47,7 @@ body {
         --color-tvl: hsl(var(--chart-1));
         --color-dau: hsl(var(--chart-2));
         --color-trx: hsl(var(--chart-3));
+        --color-label: hsl(var(--muted-foreground));
     }
 
     .dark {
