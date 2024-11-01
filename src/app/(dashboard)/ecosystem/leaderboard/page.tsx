@@ -32,6 +32,8 @@ import {
   Legend 
 } from 'recharts';
 import { TrendingUp } from 'lucide-react';
+import { PlatformMetricsTrend } from "@/components/charts/platform-metrics-trend"
+import { GOATMetricsChart } from "@/components/charts/goat-metrics-chart"
 
 // GOAT Club data
 const GOATClubData = [
@@ -345,57 +347,30 @@ function DataTable<TData, TValue>({ columns, data }: { columns: ColumnDef<TData,
     );
 }
 
-const leaderboardChartData = [
-  { month: "Jan", projects: projectData[0].tvl / 1e9, quests: questLeaderboardData[0].questPoints / 1000 },
-  { month: "Feb", projects: projectData[1].tvl / 1e9, quests: questLeaderboardData[1].questPoints / 1000 },
-  { month: "Mar", projects: projectData[2].tvl / 1e9, quests: questLeaderboardData[2].questPoints / 1000 },
-];
-
-function LeaderboardChart() {
-  return (
-    <Card className="mb-6">
-      <CardHeader>
-        <CardTitle>Platform Growth</CardTitle>
-        <CardDescription>Project TVL vs Quest Points</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div className="h-[300px] w-full">
-          <BarChart data={leaderboardChartData} width={800} height={300}>
-            <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="month"
-              tickLine={false}
-              tickMargin={10}
-              axisLine={false}
-            />
-            <Tooltip />
-            <Legend />
-            <Bar
-              dataKey="projects"
-              fill="hsl(var(--chart-1))"
-              radius={[4, 4, 0, 0]}
-            />
-            <Bar
-              dataKey="quests"
-              fill="hsl(var(--chart-2))"
-              radius={[0, 0, 4, 4]}
-            />
-          </BarChart>
-        </div>
-      </CardContent>
-      <CardFooter className="flex-col items-start gap-2 text-sm">
-        <div className="flex gap-2 font-medium leading-none">
-          Platform growth trending up <TrendingUp className="h-4 w-4" />
-        </div>
-        <div className="leading-none text-muted-foreground">
-          Comparing Project TVL and Quest Points over time
-        </div>
-      </CardFooter>
-    </Card>
-  );
-}
+const platformMetricsData = [
+  {
+    month: "Jan",
+    tvl: projectData[0].tvl,
+    trx: projectData[0].trx,
+    dau: projectData[0].dau,
+  },
+  {
+    month: "Feb",
+    tvl: projectData[1].tvl,
+    trx: projectData[1].trx,
+    dau: projectData[1].dau,
+  },
+  {
+    month: "Mar",
+    tvl: projectData[2].tvl,
+    trx: projectData[2].trx,
+    dau: projectData[2].dau,
+  },
+]
 
 export default function LeaderboardPage() {
+    const [activeMetric, setActiveMetric] = React.useState("tvl")
+    
     return (
         <div className="container mx-auto py-10">
             <Tabs defaultValue="GOATclub" className="space-y-4">
@@ -405,7 +380,11 @@ export default function LeaderboardPage() {
                     <TabsTrigger value="questleaderboard">Quest Leaderboard</TabsTrigger>
                 </TabsList>
                 <TabsContent value="GOATclub">
-                    <LeaderboardChart />
+                    <GOATMetricsChart 
+                        data={platformMetricsData}
+                        activeTab={activeMetric}
+                        setActiveTab={setActiveMetric}
+                    />
                     <h2 className="text-2xl font-bold mb-4">GOAT Leaders</h2>
                     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                         {GOATClubData.map((category, index) => (
@@ -429,6 +408,11 @@ export default function LeaderboardPage() {
                     </div>
                 </TabsContent>
                 <TabsContent value="projects">
+                    <GOATMetricsChart 
+                        data={platformMetricsData}
+                        activeTab={activeMetric}
+                        setActiveTab={setActiveMetric}
+                    />
                     <h2 className="text-2xl font-bold mb-4">Project Leaderboard</h2>
                     <DataTable columns={projectColumns} data={projectData} />
                 </TabsContent>
