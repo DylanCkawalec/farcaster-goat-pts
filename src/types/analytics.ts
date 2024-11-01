@@ -13,10 +13,12 @@ export interface MetricCardProps {
   
   export interface ChartProps {
     data: AnalyticsData[]
-    config: {
-      [key: string]: {
-        label: string
-        color: string
-      }
+    trend?: string
+    formatValue?: (value: number) => string
+    config?: {
+        [key: string]: {
+            label: string
+            color: string
+        }
     }
   }

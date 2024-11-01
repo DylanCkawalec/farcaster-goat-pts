@@ -14,3 +14,13 @@ export const generateMockData = (days: number): AnalyticsData[] => {
     }
     return data;
 };
+
+export function calculateTrend(data: any[], key: string): string {
+    if (data.length < 2) return '+0%';
+    
+    const current = data[data.length - 1][key];
+    const previous = data[data.length - 2][key];
+    const percentageChange = ((current - previous) / previous) * 100;
+    
+    return `${percentageChange > 0 ? '+' : ''}${percentageChange.toFixed(1)}%`;
+}

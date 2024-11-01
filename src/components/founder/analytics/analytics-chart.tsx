@@ -19,13 +19,13 @@ export function AnalyticsCharts({ data }: AnalyticsChartsProps) {
                 <TabsTrigger value="trx">TRX</TabsTrigger>
             </TabsList>
             <TabsContent value="tvl">
-                <TVLChart />
+                <TVLChart data={data} />
             </TabsContent>
             <TabsContent value="dau">
-                <TVLChart />
+                <DAUChart data={data} />
             </TabsContent>
             <TabsContent value="trx">
-                <TVLChart />
+                <TRXChart data={data} />
             </TabsContent>
         </Tabs>
     );
