@@ -7,15 +7,15 @@ const nextConfig = {
             },
         ],
     },
-    redirects: async () => {
-        return [
-            {
-                source: '/',
-                destination: '/ecosystem/projects',
-                permanent: true,
-            },
-        ];
-    },
+    // redirects: async () => {
+    //     return [
+    //         {
+    //             source: '/',
+    //             destination: '/ecosystem/projects',
+    //             permanent: true,
+    //         },
+    //     ];
+    // },
 };
 
 export default nextConfig;
