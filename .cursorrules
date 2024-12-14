@@ -1,0 +1,195 @@
+# GOAT Network Points Application - Cursor Rules
+
+# Project Overview
+project_name = "GOAT Network Points App"
+project_type = "DeFi Web Application"
+framework = "Next.js 14"
+styling = "Tailwind CSS"
+component_library = "shadcn/ui"
+primary_focus = "DeFi Ecosystem and Points Tracking"
+
+# Architecture Patterns
+[architecture]
+pattern = "feature-first"
+state_management = "context + server actions"
+data_fetching = "server components + tanstack-query"
+form_handling = "controlled components"
+
+# Directory Structure
+[directories]
+root = [
+    "src/app/(auth)",          # Authentication routes
+    "src/app/(dashboard)",     # Main application routes
+    "src/app/api",             # API routes
+    "src/components",          # Shared components
+    "src/features",            # Feature-based components and logic
+    "src/hooks",               # Custom hooks
+    "src/lib",                 # Utilities and configurations
+    "src/types",               # TypeScript types
+    "src/styles",             # Global styles
+    "src/context",            # Context providers
+    "src/constants"           # Application constants
+]
+
+[directories.features]
+founder = [
+    "profile",                # Founder profile management
+    "genesis",               # Project creation and management
+    "analytics"              # TVL and metrics tracking
+]
+
+user = [
+    "ecosystem",             # Project discovery and interaction
+    "quests",               # Quest management and tracking
+    "profile"               # User profile and points tracking
+]
+
+# File Naming and Organization
+[files]
+naming_convention = {
+    components = "PascalCase.tsx",
+    hooks = "use-kebab-case.ts",
+    contexts = "kebab-case-context.tsx",
+    types = "kebab-case.types.ts",
+    utils = "kebab-case.utils.ts",
+    constants = "kebab-case.constants.ts"
+}
+
+# Component Architecture
+[components]
+structure = """
+- components/
+  ├─ ui/                    # shadcn components
+  ├─ shared/                # shared components
+  └─ features/              # feature-specific components
+     ├─ ecosystem/
+     ├─ quests/
+     └─ profile/
+"""
+
+[components.patterns]
+client_components = true     # Use 'use client' directive
+server_components = true     # Default to server components
+error_boundaries = true      # Implement error boundaries
+loading_states = true       # Include loading states
+optimization = true         # Use React.memo where beneficial
+
+# Feature-Specific Rules
+[features.ecosystem]
+card_structure = [
+    "project_info",         # Basic project information
+    "metrics",             # TVL, DAU metrics
+    "quest_summary",       # Available quests overview
+    "actions"              # User interactions
+]
+
+[features.quests]
+data_structure = [
+    "quest_type",          # TVL, TRX, DAU
+    "category",            # Quest category
+    "requirements",        # Completion requirements
+    "rewards",            # Points allocation
+    "duration",           # Time constraints
+    "verification"        # Smart contract verification
+]
+
+# Type System
+[typescript]
+strict = true
+explicit_types = true
+type_patterns = {
+    props = "interface {ComponentName}Props",
+    context = "interface {ContextName}Context",
+    hooks = "interface Use{HookName}Return"
+}
+
+# State Management
+[state_management]
+contexts = [
+    "ProjectContext",       # Project-related state
+    "QuestContext",        # Quest-related state
+    "UserContext",         # User profile and points
+    "WalletContext"        # Wallet connection state
+]
+
+form_management = {
+    preferred = "controlled",
+    validation = "client-side",
+    async_validation = "server-actions"
+}
+
+# Performance Optimization
+[performance]
+image_optimization = true
+dynamic_imports = true
+prefetching = true
+caching_strategy = "stale-while-revalidate"
+
+[performance.optimizations]
+react_query = {
+    staleTime = 1000 * 60 * 5,    # 5 minutes
+    cacheTime = 1000 * 60 * 30    # 30 minutes
+}
+
+# Data Fetching
+[data_fetching]
+preferred_method = "server_components"
+fallback_method = "tanstack-query"
+error_handling = true
+retry_logic = true
+
+# Smart Contract Integration
+[blockchain]
+provider = "ethers.js"
+connection_handling = true
+transaction_monitoring = true
+error_recovery = true
+
+# Testing Strategy
+[testing]
+framework = "jest"
+component_testing = "react-testing-library"
+coverage_threshold = 80
+test_patterns = {
+    unit = "**/*.test.ts",
+    integration = "**/*.test.tsx",
+    e2e = "cypress/e2e/**/*.cy.ts"
+}
+
+# Documentation
+[documentation]
+component_docs = true
+api_docs = true
+type_docs = true
+jsdoc_required = true
+
+# Security
+[security]
+input_validation = true
+xss_prevention = true
+csrf_protection = true
+rate_limiting = true
+
+# Editor Configuration
+[editor]
+formatter = "prettier"
+linter = "eslint"
+format_on_save = true
+auto_fix = true
+tab_size = 2
+
+# Import Organization
+[imports]
+groups = [
+    ["^react", "^next"],
+    ["^@radix-ui/.*", "^lucide-react"],
+    ["^@/components/ui/.*"],
+    ["^@/components/.*"],
+    ["^@/features/.*"],
+    ["^@/hooks/.*"],
+    ["^@/context/.*"],
+    ["^@/lib/.*"],
+    ["^@/types/.*"],
+    ["^@/.*"],
+    ["^[./]"]
+]
